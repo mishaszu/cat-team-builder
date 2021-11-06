@@ -1,0 +1,23 @@
+rescript = 1
+g_finger := /home/mishaszu/Mike/learn/articles/cat-team-builder/node_modules/@rescript/react/lib/ocaml/install.stamp
+rule astj
+  command = /home/mishaszu/Mike/learn/articles/cat-team-builder/node_modules/rescript/linux/bsc.exe  -bs-v 9.1.4 -bs-jsx 3  -absname -bs-ast -o $out $i
+o src/App.ast : astj ../../src/App.res
+rule deps
+  command = /home/mishaszu/Mike/learn/articles/cat-team-builder/node_modules/rescript/linux/bsb_helper.exe -hash bb2dbf3a99de4c9fcc7659c64cd049c5 $in
+  restat = 1
+o src/App.d : deps src/App.ast
+rule mij
+  command = /home/mishaszu/Mike/learn/articles/cat-team-builder/node_modules/rescript/linux/bsc.exe -I src -I /home/mishaszu/Mike/learn/articles/cat-team-builder/node_modules/@rescript/react/lib/ocaml   -bs-package-name vite-react-rescript-starter -bs-package-output es6:$in_d:.mjs -bs-v $g_finger $i
+  dyndep = 1
+  restat = 1
+o src/App.cmj src/App.cmi ../../src/App.mjs : mij src/App.ast
+o src/Main.ast : astj ../../src/Main.res
+o src/Main.d : deps src/Main.ast
+o src/Main.cmj src/Main.cmi ../../src/Main.mjs : mij src/Main.ast
+o src/Test.ast : astj ../../src/Test.res
+o src/Test.d : deps src/Test.ast
+o src/Test.cmj src/Test.cmi ../../src/Test.mjs : mij src/Test.ast
+o src/Browser.ast : astj ../../src/Browser.res
+o src/Browser.d : deps src/Browser.ast
+o src/Browser.cmj src/Browser.cmi ../../src/Browser.mjs : mij src/Browser.ast
